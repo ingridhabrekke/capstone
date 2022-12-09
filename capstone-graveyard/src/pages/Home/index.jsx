@@ -6,12 +6,12 @@ import List from '../../components/Home/List';
 function Home() {
     return(
         <div className="flex flex-col h-screen">
-            <NavBar className="bg-red-200"/>
+            <NavBar/>
             <div className="flex flex-1 overflow-auto">
-                <div className="basis-64 overflow-auto">
+                <div className="basis-64 overflow-auto shadow-2xl">
                     <Filtering />
                 </div>
-                <div className="bg-blue-200 flex-1 overflow-auto">
+                <div className="flex-1 overflow-auto">
                     <List />
                 </div>
             </div>  
