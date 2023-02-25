@@ -63,12 +63,12 @@ function List() {
 
 	return (
 		<div className="">
-			<span className="relative">
-				<h1 className="p-8 pb-3 text-2xl ">Projects (x results)</h1>
-				<button className="absolute top-0 right-8 bg-gray-300 p-2 rounded-md" onClick={() => setShowModal(true)}>
+			<div className="m-8 relative">
+				<h1 className=" pb-3 text-3xl ">Projects (x results)</h1>
+				<button className="absolute top-0 right-0 bg-gray-300 p-2 rounded-md" onClick={() => setShowModal(true)}>
 					Add to Graveyard
 				</button>
-			</span>
+			</div>
 			<div className="container max-h-80 justify-start ">
 
 				{
@@ -98,7 +98,7 @@ function List() {
 						<div className="flex flex-col justify-center items-center">
 							<div className="m-20 p-10 bg-gray-200 rounded-md w-1/2 relative ">
 								<h2 className="text-2xl font-bold">Kill an Idea </h2>
-								<a className="absolute top-5 right-7 font-bold  hover:gray-800" onClick={handleClose}>&times;</a>
+								<button className="absolute top-5 right-7 font-bold  hover:gray-800" onClick={handleClose}>&times;</button>
 								<div className="block mt-5">
 									<div>
 										<div className="space-y-5"  >
