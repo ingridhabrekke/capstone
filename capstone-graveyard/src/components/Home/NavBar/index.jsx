@@ -6,10 +6,10 @@ function NavBar() {
     //         <h1>Navigation bar </h1>
     //    </div> 
     <div className="h-14 bg-gray-200 ">
-      <div class="">
+      <div className="">
         {/* This will be a user thingy, but for now it is a cute dog */}
         <img src="https://www.princeton.edu/sites/default/files/styles/half_2x/public/images/2022/02/KOA_Nassau_2697x1517.jpg?itok=iQEwihUn" 
-        class="m-2 inline-block h-10 w-10 mr-4 float-right rounded-full object-cover" alt="User Pic" />
+        className="m-2 inline-block h-10 w-10 mr-4 float-right rounded-full object-cover" alt="User Pic" />
         
       </div>
     </div>
