@@ -26,6 +26,7 @@ function List({ colleges }) {
 	
 	const [title, setTitle] = React.useState("")
 	const [text, setText] = React.useState("");
+	const [classes, setClasses] = React.useState("");
 	
 	// initialize college checklist (none checked)
 	//const colleges = ["AH", "B", "CS", "NS", "SS"];
@@ -52,7 +53,8 @@ function List({ colleges }) {
 			const docRef = await addDoc(collection(db, "entries"), {
 				title: title,
 				text: text,
-				colleges: checkedState
+				colleges: checkedState, 
+				classes: classes,
 			});
 			setShowModal(false);
 			fetchData();
@@ -66,12 +68,12 @@ function List({ colleges }) {
 	return (
 		<div className="">
 			<div className="m-8 relative">
-				<h1 className=" pb-3 text-3xl ">Projects (x results)</h1>
+				<h1 className=" pb-3 text-3xl ">Projects </h1>
 				<button className="absolute top-0 right-0 bg-gray-300 p-2 rounded-md" onClick={() => setShowModal(true)}>
 					Add to Graveyard
 				</button>
 			</div>
-			<div className="container max-h-80 justify-start ">
+			<div className="container max-h-80 justify-start">
 				{console.log(entries.length)}
 				{
 					entries?.map((entry) => {
@@ -80,7 +82,7 @@ function List({ colleges }) {
 						for (var i in indices) {
 							const id = indices[i];
 							if (colleges[id]['checked'] === true) {
-								s += `<div key=${i} className="mb-5 mt-5 block h-32 shadow-md rounded-md border bg-white border-gray-300 m-8"><div className="h-full grid-cols-5"><div className="p-5"><h3 className="text-xl">${entry.title}</h3><p>${entry.text}</p></div></div></div>`;
+								s += `<div key=${i} className="mb-5 mt-5 flex-col shadow-md rounded-md border bg-white border-gray-300 m-8"><div className="h-full grid-cols-5"><div className="p-5"><h3 className="text-xl">${entry.title}</h3><p>${entry.text}</p></br><p>Relevant classes: ${entry.classes}</p></div></div></div>`;
 								break;
 
 							}
@@ -133,6 +135,10 @@ function List({ colleges }) {
 											<label className="container block" htmlFor="desc">Project Description</label>
 												<textarea className="container" placeholder="What is your project suggestion? Give us the deets" 
 												id="desc" name="desc" onChange={(e) => setText(e.target.value)}></textarea>
+											<div className="container">
+												<label className="container" htmlFor="classes">Relevant classes: </label>
+												<input type="text" className="border-1 rounded-sm border-black" onChange={(e) => setClasses(e.target.value)}></input>
+											</div>	
 											<button  className="bg-gray-500 p-2 block m-auto rounded-md" onClick={addToDb}>Bury idea</button>
 										</div>
 									</div>
