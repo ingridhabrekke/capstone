@@ -22,34 +22,39 @@ function Home() {
 			id: 0, 
 			checked: true, 
 			label: 'AH', 
-			name: 'Arts & Humanities'
+			name: 'Arts & Humanities', 
+			icon: 'https://d33z52hfhvk3mr.cloudfront.net/public/media/icons/icon_ah.png?_v=df24277'
 		}, 
 		{
 			id: 1,
 			checked: true,
 			label: 'B',
-			name: 'Business'
+			name: 'Business', 
+			icon: 'https://d33z52hfhvk3mr.cloudfront.net/public/media/icons/icon_b.png?_v=df24277'
 
 		}, 
 		{
 			id: 2,
 			checked: true,
 			label: 'CS',
-			name: 'Computational Sciences'
+			name: 'Computational Sciences', 
+			icon: 'https://d33z52hfhvk3mr.cloudfront.net/public/media/icons/icon_cs.png?_v=df24277'
 
 		}, 
 		{
 			id: 3,
 			checked: true,
 			label: 'NS',
-			name: 'Natural Sciences'
+			name: 'Natural Sciences', 
+			icon: 'https://d33z52hfhvk3mr.cloudfront.net/public/media/icons/icon_ns.png?_v=df24277'
 
 		}, 
 		{
 			id: 4,
 			checked: true,
 			label: 'SS',
-			name: 'Social Sciences'
+			name: 'Social Sciences', 
+			icon: 'https://d33z52hfhvk3mr.cloudfront.net/public/media/icons/icon_ss.png?_v=df24277'
 
 		}
 	]);

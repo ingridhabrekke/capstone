@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
-import Modal from "react-overlays/Modal"; 
+import Modal from "react-overlays/Modal";
 import Parser from 'html-react-parser';
 
 function List({ colleges }) {
@@ -23,13 +23,13 @@ function List({ colleges }) {
 		fetchData();
 	}, [])
 
-	
+
 	const [title, setTitle] = React.useState("")
 	const [text, setText] = React.useState("");
 	const [classes, setClasses] = React.useState("");
-	
+	const [deliv, setDeliv] = React.useState("");
+
 	// initialize college checklist (none checked)
-	//const colleges = ["AH", "B", "CS", "NS", "SS"];
 	const [checkedState, setCheckedState] = useState(
 		new Array(colleges.length).fill(false)
 	);
@@ -53,13 +53,14 @@ function List({ colleges }) {
 			const docRef = await addDoc(collection(db, "entries"), {
 				title: title,
 				text: text,
-				colleges: checkedState, 
+				colleges: checkedState,
 				classes: classes,
+				deliv: deliv,
 			});
 			setShowModal(false);
 			fetchData();
 			console.log("Document written with ID: ", docRef.id);
-			
+
 		} catch (e) {
 			console.error("Error adding document: ", e);
 		}
@@ -73,21 +74,40 @@ function List({ colleges }) {
 					Add to Graveyard
 				</button>
 			</div>
-			<div className="container max-h-80 justify-start">
-				{console.log(entries.length)}
+			<div className="container max-h-80 justify-start pb-4">
 				{
 					entries?.map((entry) => {
+						// find indices of colleges that the entry is associated with 
 						const indices = entry.colleges.flatMap((bool, index) => bool ? index : []);
+						
+						// use this to extract the icon for the college
+						let icon_str = ''; 
+						for (var j of indices) {
+							icon_str += `<span className="inline-block mr-1"><img className="w-8" src="${colleges[j].icon}"></span>`
+						}
+
 						let s = '';
 						for (var i in indices) {
 							const id = indices[i];
+							// fix key below and make loop for of instead of for in 
 							if (colleges[id]['checked'] === true) {
-								s += `<div key=${i} className="mb-5 mt-5 flex-col shadow-md rounded-md border bg-white border-gray-300 m-8"><div className="h-full grid-cols-5"><div className="p-5"><h3 className="text-xl">${entry.title}</h3><p>${entry.text}</p></br><p>Relevant classes: ${entry.classes}</p></div></div></div>`;
+								s += `<div key=${i} className="mb-5 mt-5 pb-0 flex-col shadow-md rounded-md border bg-white border-gray-300 m-8">
+								<div className="h-full grid-cols-5">
+								<div className="p-5">
+								<div className="relative">
+								<h3 className="text-xl pb-2 pt-2 font-bold">${entry.title}</h3>
+								<div className="float-right absolute top-0 right-0">${icon_str} </div>
+								</div>
+								<p>${entry.text}</p>
+								</br>
+								<p>Relevant classes: ${entry.classes}</p>
+								<p>Suggested deliverable(s): ${entry.deliv}</p>
+								</div></div></div>`;
 								break;
 
 							}
 						}
-					return (<div>{Parser(s)}</div>)
+						return (<div>{Parser(s)}</div>)
 					})
 				}
 			</div>
@@ -114,32 +134,36 @@ function List({ colleges }) {
 
 											<div className="mt-4">
 												<label className="container" htmlFor="college">College(s):</label>
-												
+
 												{colleges.map(item => {
 													return (
 														<div key={item.id} className="container inline pl-2">
-																	<input
-																		type="checkbox"
-																		id={`custom-checkbox-${item.id}`}
-																		name={item.label}
-																		value={item.label}
-																		checked={checkedState[item.id]}
-																		onChange={() => handleChange(item.id)}
-																	/>
-																	<label className="p-1" htmlFor={`custom-checkbox-${item.id}`}>{item.label}</label>
+															<input
+																type="checkbox"
+																id={`custom-checkbox-${item.id}`}
+																name={item.label}
+																value={item.label}
+																checked={checkedState[item.id]}
+																onChange={() => handleChange(item.id)}
+															/>
+															<label className="p-1" htmlFor={`custom-checkbox-${item.id}`}>{item.label}</label>
 														</div>
-													
+
 													);
 												})}
-											</div>							
+											</div>
 											<label className="container block" htmlFor="desc">Project Description</label>
-												<textarea className="container" placeholder="What is your project suggestion? Give us the deets" 
+											<textarea className="container" placeholder="What is your project suggestion? Give us the deets"
 												id="desc" name="desc" onChange={(e) => setText(e.target.value)}></textarea>
 											<div className="container">
 												<label className="container" htmlFor="classes">Relevant classes: </label>
 												<input type="text" className="border-1 rounded-sm border-black" onChange={(e) => setClasses(e.target.value)}></input>
-											</div>	
-											<button  className="bg-gray-500 p-2 block m-auto rounded-md" onClick={addToDb}>Bury idea</button>
+											</div>
+											<div className="container">
+												<label className="container" htmlFor="deliv">Suggested deliverable(s): </label>
+												<input type="text" className="border-1 rounded-sm border-black" onChange={(e) => setDeliv(e.target.value)}></input>
+											</div>
+											<button className="bg-gray-500 p-2 block m-auto rounded-md" onClick={addToDb}>Bury idea</button>
 										</div>
 									</div>
 								</div>
@@ -151,12 +175,12 @@ function List({ colleges }) {
 
 			</Modal>
 		</div>
-		
+
 
 	)
 };
 
-export default List; 
+export default List;
 
 
 
