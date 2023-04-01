@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import Modal from "react-overlays/Modal";
-import Parser from 'html-react-parser';
+import { UserAuth } from '../../../context/AuthContext';
+
 
 function List({ colleges }) {
+	const { user } = UserAuth();
 	const [entries, setEntries] = useState([]);
 
 
@@ -15,7 +17,6 @@ function List({ colleges }) {
 				const newData = querySnapshot.docs
 					.map((doc) => ({ ...doc.data(), id: doc.id }));
 				setEntries(newData);
-				//console.log(entries, newData);
 			})
 	}
 
@@ -42,6 +43,16 @@ function List({ colleges }) {
 		setCheckedState(updatedCheckedState);
 	};
 
+	const handleClaim = (entry) => {
+		updateDoc(doc(db, 'entries', entry), { claimed: user?.uid });
+		fetchData();
+	}
+
+	const handleUnclaim = (entry) => {
+		updateDoc(doc(db, 'entries', entry), { claimed: "" });
+		fetchData();
+	}
+
 	// visibility of new entry modal
 	const [showModal, setShowModal] = useState(false);
 	var handleClose = () => setShowModal(false);
@@ -56,6 +67,7 @@ function List({ colleges }) {
 				colleges: checkedState,
 				classes: classes,
 				deliv: deliv,
+				//claimed: false
 			});
 			setShowModal(false);
 			fetchData();
@@ -66,11 +78,12 @@ function List({ colleges }) {
 		}
 	}
 
+
 	return (
 		<div className="">
 			<div className="m-8 relative">
 				<h1 className=" pb-3 text-3xl ">Projects </h1>
-				<button className="absolute top-0 right-0 bg-gray-300 p-2 rounded-md" onClick={() => setShowModal(true)}>
+				<button key="help" className="absolute top-0 right-0 bg-gray-300 p-2 rounded-md" onClick={() => setShowModal(true)}>
 					Add to Graveyard
 				</button>
 			</div>
@@ -79,35 +92,46 @@ function List({ colleges }) {
 					entries?.map((entry) => {
 						// find indices of colleges that the entry is associated with 
 						const indices = entry.colleges.flatMap((bool, index) => bool ? index : []);
-						
-						// use this to extract the icon for the college
-						let icon_str = ''; 
-						for (var j of indices) {
-							icon_str += `<span className="inline-block mr-1"><img className="w-8" src="${colleges[j].icon}"></span>`
-						}
 
-						let s = '';
-						for (var i in indices) {
-							const id = indices[i];
-							// fix key below and make loop for of instead of for in 
-							if (colleges[id]['checked'] === true) {
-								s += `<div key=${i} className="mb-5 mt-5 pb-0 flex-col shadow-md rounded-md border bg-white border-gray-300 m-8">
-								<div className="h-full grid-cols-5">
-								<div className="p-5">
-								<div className="relative">
-								<h3 className="text-xl pb-2 pt-2 font-bold">${entry.title}</h3>
-								<div className="float-right absolute top-0 right-0">${icon_str} </div>
-								</div>
-								<p>${entry.text}</p>
-								</br>
-								<p>Relevant classes: ${entry.classes}</p>
-								<p>Suggested deliverable(s): ${entry.deliv}</p>
-								</div></div></div>`;
-								break;
+						// get the icons for the colleges and map to HTML elements
+						const displayIcons = () => {
+							return (indices.map((j) => <span className="inline-block mr-1"><img className="w-8" alt="" src={colleges[j].icon} /></span>))
+						};
 
+						const claims = () => {
+							if (entry.claimed) {
+								//updateDoc(doc(db, 'entries', entry.id), { claimed: ""})
+								if (entry.claimed === user?.uid) { 
+									return (<button className="float-right border border-gray-300 p-1 rounded-md" onClick={() => handleUnclaim(entry.id)}>Unclaim project</button>);
+								} else {
+									return (<p className="float-right text-red-900 p-1 ml-4">Claimed</p>)
+								}
+							} else {
+								return (<button className="float-right border border-gray-300 p-1 rounded-md" onClick={() => handleClaim(entry.id)}>Claim project</button>);
+							}
+						};
+
+						for (var i of indices) {
+							if (colleges[i]['checked'] === true) {
+								return (<div key={entry.id} className="mb-5 relative  mt-5 pb-0 flex-col shadow-md rounded-md border bg-white border-gray-300 m-8">
+									<div className="h-full grid-cols-5">
+										<div className="p-5">
+											<div className="relative mb-4">
+												<h3 className="inline text-xl pb-2 pt-2 font-bold">{entry.title}</h3>
+												<div className="float-right">{displayIcons()} </div>
+											</div>
+											<p>{entry.text}</p>
+											<br />
+											<p>Relevant classes: {entry.classes}</p>
+											<div className="relative">
+												<p className="inline">{claims()}Suggested deliverable(s): {entry.deliv} </p>
+											</div>
+										</div>
+									</div>
+								</div>);
 							}
 						}
-						return (<div>{Parser(s)}</div>)
+						return (<div></div>)
 					})
 				}
 			</div>
@@ -129,31 +153,33 @@ function List({ colleges }) {
 										<div className="space-y-5"  >
 											<div className="container">
 												<label className="container" htmlFor="title">Project Title: </label>
-												<input type="text" className="border-1 rounded-sm border-black" onChange={(e) => setTitle(e.target.value)}></input>
+												<input type="text" className="border-1 rounded-sm border-black pl-2" onChange={(e) => setTitle(e.target.value)}></input>
 											</div>
 
 											<div className="mt-4">
 												<label className="container" htmlFor="college">College(s):</label>
 
-												{colleges.map(item => {
-													return (
-														<div key={item.id} className="container inline pl-2">
-															<input
-																type="checkbox"
-																id={`custom-checkbox-${item.id}`}
-																name={item.label}
-																value={item.label}
-																checked={checkedState[item.id]}
-																onChange={() => handleChange(item.id)}
-															/>
-															<label className="p-1" htmlFor={`custom-checkbox-${item.id}`}>{item.label}</label>
-														</div>
+												{// map the colleges to checkboxes 
+													colleges.map(item => {
+														return (
+															<div key={item.id} className="container inline pl-2">
+																<input
+																	type="checkbox"
+																	id={`custom-checkbox-${item.id}`}
+																	name={item.label}
+																	value={item.label}
+																	checked={checkedState[item.id]}
+																	onChange={() => handleChange(item.id)}
+																/>
+																<label className="p-1" htmlFor={`custom-checkbox-${item.id}`}>{item.label}</label>
+															</div>
 
-													);
-												})}
+														);
+													})}
 											</div>
 											<label className="container block" htmlFor="desc">Project Description</label>
-											<textarea className="container" placeholder="What is your project suggestion? Give us the deets"
+											<textarea className="container h-32 p-2 m-0" placeholder="What is your project suggestion? 
+												Think about: &#13;&#10;- What problem/question does the project aim to solve/answer?&#13;&#10;- What are the goals/objectives of the project?&#13;&#10;- Any constraints? "
 												id="desc" name="desc" onChange={(e) => setText(e.target.value)}></textarea>
 											<div className="container">
 												<label className="container" htmlFor="classes">Relevant classes: </label>

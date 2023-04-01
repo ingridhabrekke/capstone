@@ -23,7 +23,7 @@ function NavBar() {
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
         setDropdown(false);
-        console.log(menuRef.current);
+        //console.log(menuRef.current);
       }
     };
 
@@ -39,19 +39,25 @@ function NavBar() {
   return(
 
     <div className="h-14 bg-gray-200 inline">
-      <div className="float-left">
-        <button className="block h-14 w-14 ml-2 object-cover" href="/home">
+      <div className="flex float-left">
+        <a className="h-14 w-14 ml-2 object-cover" href="/home">
             <img src="graveyard.png" className="" alt="User Pic" />
-        </button>
+        </a>
+        <a className="h-14 ml-6 mt-4 object-cover" href="/about">
+          ABOUT
+        </a>
+        <a className="h-14 ml-8 mt-4 object-cover" href="/writing-entries">
+          WRITING ENTRIES
+        </a>
       </div>
-      <div className="float-right " ref={menuRef}>
+      <div className="float-right" ref={menuRef}>
         <button className="m-2 block h-10 w-10 mr-4 object-cover" onClick={()=>setDropdown(!dropdown)}>
           <img src={user?.photoURL} className="rounded-full" alt="User Pic" />
          </button>
         {dropdown && 
             <div className="w-36 absolute right-0 z-10">
               <ul className="bg-gray-100 border w-full">
-            <li>
+            <li key="logout">
               <button className="p-4" onClick={handleLogout}>Log out</button>
             </li>
           </ul>

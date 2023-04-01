@@ -1,21 +1,11 @@
 import React, {useState} from 'react';
-import NavBar from '../../components/Home/NavBar';
+import NavBar from '../../components/common/NavBar';
 import Filtering from '../../components/Home/Filtering';
 import List from '../../components/Home/List';
 //import { UserAuth } from '../../context/AuthContext';
 
 
-function Home() {
-	// const { user } = UserAuth();
-
-	// const handleLogout = async () => {
-	// 	try {
-	// 		await logOut();
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	}
-	// };
-
+const Home = () => {
 
 	const [colleges, setColleges] = useState([
 		{
