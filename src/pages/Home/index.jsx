@@ -58,12 +58,6 @@ const Home = () => {
 				</div>
 
 				<div className="flex-1 overflow-auto">
-					{/* <div>
-						<p>Welcome, {user?.displayName}</p>
-					</div> */}
-					{/* <button onClick={handleLogout} className='border py-2 px-5 mt-10'>
-						Logout
-					</button> */}
 					<List colleges={colleges} />
 				</div>
 			</div>
