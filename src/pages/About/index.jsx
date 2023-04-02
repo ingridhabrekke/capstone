@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from '../../components/common/NavBar';
 
+/** Returns HTML for About page */
 const About = () => {
 
 	return (

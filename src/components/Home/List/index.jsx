@@ -5,13 +5,22 @@ import Modal from "react-overlays/Modal";
 import { UserAuth } from '../../../context/AuthContext';
 
 
+//Inspiration for modal implementation: 
+//Contact mentor. (n.d.).  Create Modal in React JS with Overlay – Contact Mentor.
+//	Retrieved February 26, 2023, from https://contactmentor.com/create-modal-react-js-overlay/   
+
+
+
+/** 
+ * Returns HTML for the filtered list of projects. 
+ * @param {list} colleges - The list of dictionaries with info about each college.  
+ */
 function List({ colleges }) {
 	const { user } = UserAuth();
 	const [entries, setEntries] = useState([]);
 
-
+	// get the entries from the database and store them in the list 'entries'
 	const fetchData = async () => {
-
 		await getDocs(collection(db, "entries"))
 			.then((querySnapshot) => {
 				const newData = querySnapshot.docs
@@ -20,17 +29,18 @@ function List({ colleges }) {
 			})
 	}
 
+	// faetch data when initializing the page
 	useEffect(() => {
 		fetchData();
 	}, [])
 
-
+	// initialize variables and functions for storing current input to the modal
 	const [title, setTitle] = React.useState("")
 	const [text, setText] = React.useState("");
 	const [classes, setClasses] = React.useState("");
 	const [deliv, setDeliv] = React.useState("");
 
-	// initialize college checklist (none checked)
+	// initialize college checklist for modal (none checked)
 	const [checkedState, setCheckedState] = useState(
 		new Array(colleges.length).fill(false)
 	);
@@ -43,11 +53,13 @@ function List({ colleges }) {
 		setCheckedState(updatedCheckedState);
 	};
 
+	//let a user claim a project
 	const handleClaim = (entry) => {
 		updateDoc(doc(db, 'entries', entry), { claimed: user?.uid });
 		fetchData();
 	}
 
+	// unclaim a project
 	const handleUnclaim = (entry) => {
 		updateDoc(doc(db, 'entries', entry), { claimed: "" });
 		fetchData();
@@ -67,7 +79,7 @@ function List({ colleges }) {
 				colleges: checkedState,
 				classes: classes,
 				deliv: deliv,
-				//claimed: false
+				claimed: ""
 			});
 			setShowModal(false);
 			fetchData();
@@ -137,11 +149,6 @@ function List({ colleges }) {
 				}
 			<br/>
 			</div>
-
-
-			{/* Inspiration for modal implementation: 
-			Contact mentor. (n.d.).  Create Modal in React JS with Overlay – Contact Mentor.
-			Retrieved February 26, 2023, from https://contactmentor.com/create-modal-react-js-overlay/   */}
 
 			<Modal
 				className="fixed w-1/2 h-1/2 z-50 top-1/4 left-1/4 border-1 rounded-md bg-white"

@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from '../../components/common/NavBar';
 
+/** WritingTips component. Returns HTML for 'Writing entires' page.  */
 const WritingTips = () => {
 
 	return (

@@ -1,6 +1,9 @@
 # The Capstone Graveyard 
 
-### Setup (from )
+To run the project locally, make sure to run npm install to load dependencies before running or building the app. 
+
+## Default information (Create React App)
+### Setup 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -48,4 +51,20 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 
-## Tailwind CSS 
+
+## Sources 
+#### The following sources were used for the implementation of this project: 
+
+code freeze. (2021, June 12). React material UI app - working with filters | hooks + functional components. YouTube. Retrieved November 23, 2022, from https://www.youtube.com/watch?v=VVhnuOKVHRs 
+
+Coding with Basir. (2020, May 6). React &amp; node tutorial for absolute beginners - build &amp; deploy ECommerce website in 5 hours. YouTube. Retrieved November 24, 2022, from https://www.youtube.com/watch?v=Fy9SdZLBTOo 
+
+Google. (n.d.). Firebase documentation. Google. Retrieved January 16, 2023, from https://firebase.google.com/docs  
+
+#### These sources were used specifically for the dropdown menu and modal. They are also referenced in the relevant parts of the code: 
+
+Contact mentor. (n.d.).  Create Modal in React JS with Overlay – Contact Mentor. Retrieved February 26, 2023, from https://contactmentor.com/create-modal-react-js-overlay/ 
+ 
+TK. (2022, July 24). Dropdown menu - react tutorial for Beginners. YouTube. Retrieved March 25, 2023, from https://www.youtube.com/watch?v=KROfo7vuIGY 
+
+TK. (2022, August 6). Click outside to close - react hook. YouTube. Retrieved March 25, 2023, from https://www.youtube.com/watch?v=HfZ7pdhS43s 

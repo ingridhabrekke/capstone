@@ -1,14 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { UserAuth } from '../../../context/AuthContext';
 
-// dropdown: https://www.youtube.com/watch?v=KROfo7vuIGY
-// https://www.youtube.com/watch?v=HfZ7pdhS43s
+// Dropdown made from: 
+// TK. (2022, July 24). Dropdown menu - react tutorial for Beginners. YouTube. Retrieved March 25, 2023, from https://www.youtube.com/watch?v=KROfo7vuIGY 
+// TK. (2022, August 6). Click outside to close - react hook. YouTube. Retrieved March 25, 2023, from https://www.youtube.com/watch?v=HfZ7pdhS43s 
 
 
-function NavBar() {
+/** Returns HTML for the navigation bar. */
+const NavBar = () => {
   const { logOut, user } = UserAuth();
   const [ dropdown, setDropdown] = useState(false);
 
+  // log out and log any errors to console
   const handleLogout = async () => {
     try {
       await logOut();
@@ -17,18 +20,15 @@ function NavBar() {
     }
   };
 
+  // close dropdown when user clicks outside of it
   let menuRef = useRef();
-
   useEffect(() => {
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
         setDropdown(false);
-        //console.log(menuRef.current);
       }
     };
-
     document.addEventListener("mousedown", handler);
-
 
     return () => {
       document.removeEventListener("mousedown", handler);
@@ -37,7 +37,6 @@ function NavBar() {
   });
 
   return(
-
     <div className="h-14 bg-gray-200 inline">
       <div className="flex float-left">
         <a className="h-14 w-14 ml-2 object-cover" href="/home">
