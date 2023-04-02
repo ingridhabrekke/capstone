@@ -98,11 +98,12 @@ function List({ colleges }) {
 							return (indices.map((j) => <span className="inline-block mr-1"><img className="w-8" alt="" src={colleges[j].icon} /></span>))
 						};
 
+						// display claiming and unclaiming buttons
 						const claims = () => {
 							if (entry.claimed) {
 								//updateDoc(doc(db, 'entries', entry.id), { claimed: ""})
 								if (entry.claimed === user?.uid) { 
-									return (<button className="float-right border border-gray-300 p-1 rounded-md" onClick={() => handleUnclaim(entry.id)}>Unclaim project</button>);
+									return (<button className="float-right  p-1 bg-red-200 rounded-md" onClick={() => handleUnclaim(entry.id)}>Unclaim project</button>);
 								} else {
 									return (<p className="float-right text-red-900 p-1 ml-4">Claimed</p>)
 								}
@@ -134,7 +135,13 @@ function List({ colleges }) {
 						return (<div></div>)
 					})
 				}
+			<br/>
 			</div>
+
+
+			{/* Inspiration for modal implementation: 
+			Contact mentor. (n.d.).  Create Modal in React JS with Overlay – Contact Mentor.
+			Retrieved February 26, 2023, from https://contactmentor.com/create-modal-react-js-overlay/   */}
 
 			<Modal
 				className="fixed w-1/2 h-1/2 z-50 top-1/4 left-1/4 border-1 rounded-md bg-white"
@@ -183,11 +190,11 @@ function List({ colleges }) {
 												id="desc" name="desc" onChange={(e) => setText(e.target.value)}></textarea>
 											<div className="container">
 												<label className="container" htmlFor="classes">Relevant classes: </label>
-												<input type="text" className="border-1 rounded-sm border-black" onChange={(e) => setClasses(e.target.value)}></input>
+												<input type="text" className="border-1 pl-2 rounded-sm border-black" onChange={(e) => setClasses(e.target.value)}></input>
 											</div>
 											<div className="container">
 												<label className="container" htmlFor="deliv">Suggested deliverable(s): </label>
-												<input type="text" className="border-1 rounded-sm border-black" onChange={(e) => setDeliv(e.target.value)}></input>
+												<input type="text" className="border-1 pl-2 rounded-sm border-black" onChange={(e) => setDeliv(e.target.value)}></input>
 											</div>
 											<button className="bg-gray-500 p-2 block m-auto rounded-md" onClick={addToDb}>Bury idea</button>
 										</div>

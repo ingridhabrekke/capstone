@@ -27,8 +27,9 @@ const About = () => {
 					<p className="font-bold">Rules: </p>
 						<ul className="list-disc pl-8 mb-8">
 							<li>If you put a project in here, you should not work on it yourself - it could end up being someone's Capstone</li>
-							<li>Do not work on projects you have not claimed (you can only claim one)</li>
-							<li>Be respectful:)</li>
+							<li>Do not work on projects you have not claimed </li>
+							<li>You can only claim one project. </li>
+							<li>Be respectful to other users by following the rules and only submitting serious project ideas:)</li>
 						</ul>	
 									
 					<a className="bg-gray-300 p-2 rounded-md" href="/home">
