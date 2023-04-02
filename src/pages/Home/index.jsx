@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import NavBar from '../../components/common/NavBar';
 import Filtering from '../../components/Home/Filtering';
 import List from '../../components/Home/List';
-//import { UserAuth } from '../../context/AuthContext';
 
 
 const Home = () => {
