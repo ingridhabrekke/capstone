@@ -1,5 +1,5 @@
 import React from "react";
-import SearchIcon from '@mui/icons-material/Search';
+//import SearchIcon from '@mui/icons-material/Search';
 
 function Filtering({ colleges, setColleges }) {
     
@@ -16,9 +16,9 @@ function Filtering({ colleges, setColleges }) {
 	};
 	
 	
-	const handleSearch = () => {
-		return 0
-	};
+	// const handleSearch = () => {
+	// 	return 0
+	// };
 
 	return (
 		<div className="p-4">
