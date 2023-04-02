@@ -1,4 +1,3 @@
-//import './App.css';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthContextProvider } from './context/AuthContext';
@@ -8,7 +7,9 @@ import Home from './pages/Home';
 import About from './pages/About';
 import WritingTips from './pages/WritingTips';
 
-function App() {
+/** App component. Returns the HTML for the whole page 
+ * with routing and protected pages.   */
+const App = () => {
 	return (
 		<div>
 			<AuthContextProvider>

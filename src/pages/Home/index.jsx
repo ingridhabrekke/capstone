@@ -3,7 +3,7 @@ import NavBar from '../../components/common/NavBar';
 import Filtering from '../../components/Home/Filtering';
 import List from '../../components/Home/List';
 
-
+/** Home component. Returns HTML for homepage. */
 const Home = () => {
 
 	const [colleges, setColleges] = useState([

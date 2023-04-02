@@ -3,10 +3,12 @@ import { GoogleButton } from 'react-google-button';
 import { UserAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+/** Login component. Returns HTML for login page. */
 const Login = () => {
     const { googleLogIn, user } = UserAuth();
     const navigate = useNavigate();
 
+		// log in using Google login
     const handleGoogleLogIn = async () => {
         try {
             await googleLogIn();
@@ -15,6 +17,7 @@ const Login = () => {
         }
     };
 
+		// if the user is logged in, redirect to homepage
     useEffect(() => {
         if (user != null) {
             navigate('/home');
